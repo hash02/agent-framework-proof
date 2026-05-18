@@ -1,0 +1,87 @@
+﻿{
+  "boundary": "Local RBAC and audit simulation for governed AI workflows; not enterprise IAM or production authorization.",
+  "roles": {
+    "researcher": [
+      "read_board_state",
+      "retrieve_project_proof"
+    ],
+    "reviewer": [
+      "evaluate_artifact_safety",
+      "read_board_state"
+    ],
+    "applicant": [
+      "prepare_application_packet",
+      "read_board_state"
+    ]
+  },
+  "summary": {
+    "total": 7,
+    "allowed": 3,
+    "denied": 4
+  },
+  "audit_rows": [
+    {
+      "timestamp": "2026-05-18T00:00:00+00:00",
+      "role": "researcher",
+      "action": "retrieve_project_proof",
+      "resource": "career-proof-workflow",
+      "allowed": true,
+      "reason": "role_has_permission",
+      "risk": "low"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00+00:00",
+      "role": "researcher",
+      "action": "evaluate_artifact_safety",
+      "resource": "career-proof-workflow",
+      "allowed": false,
+      "reason": "role_missing_permission",
+      "risk": "medium"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00+00:00",
+      "role": "reviewer",
+      "action": "evaluate_artifact_safety",
+      "resource": "career-proof-workflow",
+      "allowed": true,
+      "reason": "role_has_permission",
+      "risk": "medium"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00+00:00",
+      "role": "reviewer",
+      "action": "prepare_application_packet",
+      "resource": "career-proof-workflow",
+      "allowed": false,
+      "reason": "role_missing_permission",
+      "risk": "medium"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00+00:00",
+      "role": "applicant",
+      "action": "prepare_application_packet",
+      "resource": "career-proof-workflow",
+      "allowed": true,
+      "reason": "role_has_permission",
+      "risk": "medium"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00+00:00",
+      "role": "applicant",
+      "action": "submit_application",
+      "resource": "career-proof-workflow",
+      "allowed": false,
+      "reason": "role_missing_permission",
+      "risk": "high"
+    },
+    {
+      "timestamp": "2026-05-18T00:00:00+00:00",
+      "role": "applicant",
+      "action": "edit_public_profile",
+      "resource": "career-proof-workflow",
+      "allowed": false,
+      "reason": "role_missing_permission",
+      "risk": "high"
+    }
+  ]
+}

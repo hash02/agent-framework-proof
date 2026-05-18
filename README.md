@@ -23,6 +23,7 @@ Status: personal-scale proof, not production enterprise deployment.
 - `agent_safety_eval.py`: policy eval harness that scans artifacts for private data, unauthorized action claims, and unverified framework claims.
 - `rag_proof_retriever.py`: deterministic public-safe retrieval proof with chunking, scoring, and citations.
 - `langchain_tool_caller.py`: LangChain tool-calling proof over local retrieval and safety-eval tools.
+- `rbac_audit_sim.py`: local RBAC and audit simulation for governed AI workflow roles.
 - `risk_service_api.py`: local FastAPI service wrapping retrieval and safety-eval flows.
 - `Dockerfile`: container package for the local FastAPI proof service.
 - `k8s/`: local Kubernetes deployment, service, probes, and kustomization for the FastAPI proof service.
@@ -31,6 +32,7 @@ Status: personal-scale proof, not production enterprise deployment.
 - `tests/test_agent_safety_eval.py`: eval harness regression tests.
 - `tests/test_rag_proof_retriever.py`: retrieval and citation tests.
 - `tests/test_langchain_tool_caller.py`: local LangChain tool registration, routing, and invocation tests.
+- `tests/test_rbac_audit_sim.py`: role permission and audit-row tests.
 - `tests/test_risk_service_api.py`: API contract tests.
 - `tests/test_kubernetes_manifests.py`: manifest checks for local Kubernetes deployment proof.
 
@@ -42,6 +44,7 @@ python langgraph_board_runner.py "path\to\career-proof-board-latest.json"
 python agent_safety_eval.py "path\to\packet-or-board-artifact.md" --allow-framework LangGraph
 python rag_proof_retriever.py "LangGraph RAG safety eval CI"
 python langchain_tool_caller.py "Find proof for LangGraph RAG Docker"
+python rbac_audit_sim.py
 uvicorn risk_service_api:app --reload
 docker build -t agent-framework-proof .
 docker run --rm -p 8000:8000 agent-framework-proof
@@ -68,6 +71,20 @@ The `langchain_tool_caller.py` module registers two LangChain tools:
 The workflow uses deterministic routing instead of a paid model call. This keeps the proof free and testable while still showing the core tool-calling shape: tool registration, argument passing, invocation, result capture, and a clear safety boundary.
 
 Job-market signal: hands-on LangChain tool abstraction, local tool orchestration, and auditable agent-system boundaries.
+
+## RBAC And Audit Simulation
+
+The `rbac_audit_sim.py` module models three workflow roles:
+
+- `researcher`: can read board state and retrieve project proof.
+- `reviewer`: can read board state and evaluate artifact safety.
+- `applicant`: can read board state and prepare application packets.
+
+High-risk actions such as `submit_application` and `edit_public_profile` are denied for every role in the local simulation.
+
+Each decision creates an audit row with timestamp, role, action, resource, allow/deny result, reason, and risk label.
+
+Job-market signal: role-scoped access, auditability, authorization boundaries, and regulated-workflow thinking. This is a local simulation only, not enterprise IAM or production authorization.
 
 ## Docker Package
 
