@@ -1,0 +1,44 @@
+﻿{
+  "current_lane": "Job Tech Build Quests",
+  "open_gates": [
+    {
+      "name": "Resume Variants",
+      "state": "aml_regtech_fixed",
+      "reason": "Six CloudCode fixes applied; ready to tailor to a specific verified posting"
+    },
+    {
+      "name": "Application Packets",
+      "state": "voleon_precheck_next",
+      "reason": "PointClickCare parked on framework truth gate; Kraken and Slash still gated; next unblocked lane is Voleon precheck"
+    },
+    {
+      "name": "Global 100k Scanner",
+      "state": "route_to_voleon",
+      "reason": "scanner run created with PointClickCare, Voleon, Apply Digital, Quandri, Hiive, Kraken, and backup targets"
+    },
+    {
+      "name": "Job Tech Build Quests",
+      "state": "langgraph_board_runner_proposed",
+      "reason": "Use missing role requirements as project upgrades; CloudCode should critique first quest"
+    }
+  ],
+  "blocked_gates": [
+    {
+      "name": "Job Market Research",
+      "state": "slash_precheck_done",
+      "reason": "Slash posting active enough for packet planning; Canada eligibility unconfirmed"
+    },
+    {
+      "name": "Public Profiles",
+      "state": "github_profile_cards_live",
+      "reason": "GitHub profile updated after explicit HASH approval; LinkedIn and Indeed remain blocked without separate approval"
+    },
+    {
+      "name": "Revenue Chess",
+      "state": "parked",
+      "reason": "resume only when HASH switches mission"
+    }
+  ],
+  "proposed_move": "Build the local LangGraph Board Runner proof, run tests, and keep resume claims unchanged until proof exists.",
+  "hold_signal": false
+}
