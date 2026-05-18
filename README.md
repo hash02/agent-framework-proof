@@ -24,11 +24,13 @@ Status: personal-scale proof, not production enterprise deployment.
 - `rag_proof_retriever.py`: deterministic public-safe retrieval proof with chunking, scoring, and citations.
 - `risk_service_api.py`: local FastAPI service wrapping retrieval and safety-eval flows.
 - `Dockerfile`: container package for the local FastAPI proof service.
+- `k8s/`: local Kubernetes deployment, service, probes, and kustomization for the FastAPI proof service.
 - `data/public_career_corpus.json`: small public-only corpus for recruiter-safe retrieval tests.
 - `tests/test_langgraph_board_runner.py`: safety and behavior tests.
 - `tests/test_agent_safety_eval.py`: eval harness regression tests.
 - `tests/test_rag_proof_retriever.py`: retrieval and citation tests.
 - `tests/test_risk_service_api.py`: API contract tests.
+- `tests/test_kubernetes_manifests.py`: manifest checks for local Kubernetes deployment proof.
 
 ## Run
 
@@ -40,6 +42,7 @@ python rag_proof_retriever.py "LangGraph RAG safety eval CI"
 uvicorn risk_service_api:app --reload
 docker build -t agent-framework-proof .
 docker run --rm -p 8000:8000 agent-framework-proof
+kubectl apply -k k8s
 ```
 
 ## FastAPI Risk Service
@@ -58,11 +61,25 @@ The Docker package runs the FastAPI proof service on port `8000`.
 
 Job-market signal: packaging a tested Python API service into a repeatable container image. The CI workflow builds the image on every push.
 
+## Kubernetes Mini Deploy
+
+The `k8s/` folder contains a local Kubernetes deployment and service for the FastAPI proof service.
+
+It includes:
+
+- one deployment for the local `agent-framework-proof:local` image
+- a ClusterIP service on port `8000`
+- readiness and liveness probes against `/health`
+- CPU and memory requests and limits
+- a kustomization entry point
+
+Job-market signal: local orchestration literacy, health probes, resource boundaries, and service wiring. This is local proof only, not a production EKS or cloud-operations claim.
+
 ## Current Verification
 
 Latest local verification:
 
-- `python -m pytest tests`: 26 passed
+- `python -m pytest tests`: test suite passes
 - GitHub Actions: tests, source safety eval, and Docker build
 - Live board run output: `runs/langgraph-board-runner-output-2026-05-18.json`
 - Live RAG proof output: `runs/rag-proof-retriever-output-2026-05-18.json`
