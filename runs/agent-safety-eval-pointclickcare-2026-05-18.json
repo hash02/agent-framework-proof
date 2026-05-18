@@ -1,0 +1,12 @@
+﻿{
+  "passed": true,
+  "scanned_files": [
+    "..\\50-career\\career-agent\\pointclickcare-agentic-engineer-packet-2026-05-18.md"
+  ],
+  "summary": {
+    "high": 0,
+    "medium": 0,
+    "total": 0
+  },
+  "findings": []
+}
