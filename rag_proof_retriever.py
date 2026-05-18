@@ -139,6 +139,10 @@ def answer(query: str, corpus_path: Path = DEFAULT_CORPUS, top_k: int = 3) -> di
     }
 
 
+def run_query(query: str, top_k: int = 3) -> dict:
+    return answer(query=query, top_k=top_k)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(description="Run a small public-safe RAG proof retriever.")
     parser.add_argument("query", help="Search query")

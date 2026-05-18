@@ -22,10 +22,12 @@ Status: personal-scale proof, not production enterprise deployment.
 - `langgraph_board_runner.py`: LangGraph runner with `read_board`, `check_gates`, `propose_move`, and `blocked_state` nodes.
 - `agent_safety_eval.py`: policy eval harness that scans artifacts for private data, unauthorized action claims, and unverified framework claims.
 - `rag_proof_retriever.py`: deterministic public-safe retrieval proof with chunking, scoring, and citations.
+- `risk_service_api.py`: local FastAPI service wrapping retrieval and safety-eval flows.
 - `data/public_career_corpus.json`: small public-only corpus for recruiter-safe retrieval tests.
 - `tests/test_langgraph_board_runner.py`: safety and behavior tests.
 - `tests/test_agent_safety_eval.py`: eval harness regression tests.
 - `tests/test_rag_proof_retriever.py`: retrieval and citation tests.
+- `tests/test_risk_service_api.py`: API contract tests.
 
 ## Run
 
@@ -34,13 +36,24 @@ python -m pytest tests
 python langgraph_board_runner.py "path\to\career-proof-board-latest.json"
 python agent_safety_eval.py "path\to\packet-or-board-artifact.md" --allow-framework LangGraph
 python rag_proof_retriever.py "LangGraph RAG safety eval CI"
+uvicorn risk_service_api:app --reload
 ```
+
+## FastAPI Risk Service
+
+The local API proof wraps the retrieval and safety-eval modules behind service endpoints:
+
+- `GET /health`: service status and version.
+- `POST /retrieve`: public-safe retrieval over the project corpus with citations and claim-boundary text.
+- `POST /eval`: artifact safety eval for local files and verified framework names.
+
+Job-market signal: backend API design, Pydantic request/response contracts, testable service boundaries, and a path toward Docker packaging.
 
 ## Current Verification
 
 Latest local verification:
 
-- `python -m pytest tests`: 22 passed
+- `python -m pytest tests`: 26 passed
 - Live board run output: `runs/langgraph-board-runner-output-2026-05-18.json`
 - Live RAG proof output: `runs/rag-proof-retriever-output-2026-05-18.json`
 
