@@ -17,6 +17,6 @@ jobs:
       - name: Run tests
         run: python -m pytest tests -v
       - name: Run safety eval on source files
-        run: python agent_safety_eval.py langgraph_board_runner.py agent_safety_eval.py rag_proof_retriever.py risk_service_api.py data/public_career_corpus.json --allow-framework LangGraph
+        run: python agent_safety_eval.py langgraph_board_runner.py agent_safety_eval.py rag_proof_retriever.py langchain_tool_caller.py risk_service_api.py data/public_career_corpus.json --allow-framework LangGraph --allow-framework LangChain
       - name: Build Docker image
         run: docker build -t agent-framework-proof:ci .

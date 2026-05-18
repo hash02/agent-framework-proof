@@ -22,6 +22,7 @@ Status: personal-scale proof, not production enterprise deployment.
 - `langgraph_board_runner.py`: LangGraph runner with `read_board`, `check_gates`, `propose_move`, and `blocked_state` nodes.
 - `agent_safety_eval.py`: policy eval harness that scans artifacts for private data, unauthorized action claims, and unverified framework claims.
 - `rag_proof_retriever.py`: deterministic public-safe retrieval proof with chunking, scoring, and citations.
+- `langchain_tool_caller.py`: LangChain tool-calling proof over local retrieval and safety-eval tools.
 - `risk_service_api.py`: local FastAPI service wrapping retrieval and safety-eval flows.
 - `Dockerfile`: container package for the local FastAPI proof service.
 - `k8s/`: local Kubernetes deployment, service, probes, and kustomization for the FastAPI proof service.
@@ -29,6 +30,7 @@ Status: personal-scale proof, not production enterprise deployment.
 - `tests/test_langgraph_board_runner.py`: safety and behavior tests.
 - `tests/test_agent_safety_eval.py`: eval harness regression tests.
 - `tests/test_rag_proof_retriever.py`: retrieval and citation tests.
+- `tests/test_langchain_tool_caller.py`: local LangChain tool registration, routing, and invocation tests.
 - `tests/test_risk_service_api.py`: API contract tests.
 - `tests/test_kubernetes_manifests.py`: manifest checks for local Kubernetes deployment proof.
 
@@ -39,6 +41,7 @@ python -m pytest tests
 python langgraph_board_runner.py "path\to\career-proof-board-latest.json"
 python agent_safety_eval.py "path\to\packet-or-board-artifact.md" --allow-framework LangGraph
 python rag_proof_retriever.py "LangGraph RAG safety eval CI"
+python langchain_tool_caller.py "Find proof for LangGraph RAG Docker"
 uvicorn risk_service_api:app --reload
 docker build -t agent-framework-proof .
 docker run --rm -p 8000:8000 agent-framework-proof
@@ -54,6 +57,17 @@ The local API proof wraps the retrieval and safety-eval modules behind service e
 - `POST /eval`: artifact safety eval for local files and verified framework names.
 
 Job-market signal: backend API design, Pydantic request/response contracts, testable service boundaries, and a path toward Docker packaging.
+
+## LangChain Tool Calling
+
+The `langchain_tool_caller.py` module registers two LangChain tools:
+
+- `retrieve_project_proof`: calls the local RAG proof retriever.
+- `evaluate_artifact_safety`: calls the local artifact safety eval harness.
+
+The workflow uses deterministic routing instead of a paid model call. This keeps the proof free and testable while still showing the core tool-calling shape: tool registration, argument passing, invocation, result capture, and a clear safety boundary.
+
+Job-market signal: hands-on LangChain tool abstraction, local tool orchestration, and auditable agent-system boundaries.
 
 ## Docker Package
 

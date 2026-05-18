@@ -1,0 +1,49 @@
+﻿{
+  "boundary": "LangChain tool-calling proof over local deterministic tools; no paid model call and no external action.",
+  "decision": {
+    "tool_name": "retrieve_project_proof",
+    "arguments": {
+      "query": "Find proof for LangGraph RAG Docker",
+      "top_k": 3
+    },
+    "reason": "query_requested_project_evidence"
+  },
+  "tool_result": {
+    "tool_name": "retrieve_project_proof",
+    "reason": "query_requested_project_evidence",
+    "arguments": {
+      "query": "Find proof for LangGraph RAG Docker",
+      "top_k": 3
+    },
+    "result": {
+      "query": "Find proof for LangGraph RAG Docker",
+      "claim_boundary": "Retrieval proof over a small public-safe corpus, not a production RAG claim.",
+      "hits": [
+        {
+          "document_id": "agent-framework-proof",
+          "title": "Agent Framework Proof",
+          "url": "https://github.com/hash02/agent-framework-proof",
+          "chunk_index": 0,
+          "score": 4.4271,
+          "snippet": "Public proof repo showing a LangGraph board runner, a policy safety eval harness, regression tests, and GitHub Actions CI for recruiter-facing agent workflow artifacts."
+        },
+        {
+          "document_id": "bionic-banker",
+          "title": "Bionic Banker",
+          "url": "https://github.com/hash02/bionic-banker",
+          "chunk_index": 0,
+          "score": 4.0217,
+          "snippet": "Public writing and project surface for AI, finance, agent systems, and technical case studies. Useful for portfolio proof and recruiter context."
+        },
+        {
+          "document_id": "hermes-kite",
+          "title": "Hermes Kite",
+          "url": "https://github.com/hash02/hermes-kite",
+          "chunk_index": 0,
+          "score": 3.0,
+          "snippet": "Public testnet and hackathon-oriented proof around agent infrastructure. Use as testnet infrastructure proof, not live trading proof."
+        }
+      ]
+    }
+  }
+}
