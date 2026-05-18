@@ -1,0 +1,14 @@
+{
+  "query": "LangGraph RAG safety eval CI",
+  "claim_boundary": "Retrieval proof over a small public-safe corpus, not a production RAG claim.",
+  "hits": [
+    {
+      "document_id": "agent-framework-proof",
+      "title": "Agent Framework Proof",
+      "url": "https://github.com/hash02/agent-framework-proof",
+      "chunk_index": 0,
+      "score": 7.6652,
+      "snippet": "Public proof repo showing a LangGraph board runner, a policy safety eval harness, regression tests, and GitHub Actions CI for recruiter-facing agent workflow artifacts."
+    }
+  ]
+}

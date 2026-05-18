@@ -21,8 +21,11 @@ Status: personal-scale proof, not production enterprise deployment.
 
 - `langgraph_board_runner.py`: LangGraph runner with `read_board`, `check_gates`, `propose_move`, and `blocked_state` nodes.
 - `agent_safety_eval.py`: policy eval harness that scans artifacts for private data, unauthorized action claims, and unverified framework claims.
+- `rag_proof_retriever.py`: deterministic public-safe retrieval proof with chunking, scoring, and citations.
+- `data/public_career_corpus.json`: small public-only corpus for recruiter-safe retrieval tests.
 - `tests/test_langgraph_board_runner.py`: safety and behavior tests.
 - `tests/test_agent_safety_eval.py`: eval harness regression tests.
+- `tests/test_rag_proof_retriever.py`: retrieval and citation tests.
 
 ## Run
 
@@ -30,14 +33,16 @@ Status: personal-scale proof, not production enterprise deployment.
 python -m pytest tests
 python langgraph_board_runner.py "path\to\career-proof-board-latest.json"
 python agent_safety_eval.py "path\to\packet-or-board-artifact.md" --allow-framework LangGraph
+python rag_proof_retriever.py "LangGraph RAG safety eval CI"
 ```
 
 ## Current Verification
 
 Latest local verification:
 
-- `python -m pytest tests`: 18 passed
+- `python -m pytest tests`: 22 passed
 - Live board run output: `runs/langgraph-board-runner-output-2026-05-18.json`
+- Live RAG proof output: `runs/rag-proof-retriever-output-2026-05-18.json`
 
 ## Safety Boundaries
 
@@ -46,3 +51,5 @@ The runner does not apply to jobs, send messages, contact third parties, publish
 The test suite checks that output avoids private paths, IP addresses, internal machine names, and unauthorized external-action trigger words.
 
 The eval harness is intentionally conservative. High-severity findings fail the run. Medium-severity findings are review prompts, usually for boundary statements or unverified framework names.
+
+The RAG proof is intentionally small and public-safe. It demonstrates retrieval mechanics and citations; it is not a production RAG claim.

@@ -17,4 +17,4 @@ jobs:
       - name: Run tests
         run: python -m pytest tests -v
       - name: Run safety eval on source files
-        run: python agent_safety_eval.py langgraph_board_runner.py agent_safety_eval.py --allow-framework LangGraph
+        run: python agent_safety_eval.py langgraph_board_runner.py agent_safety_eval.py rag_proof_retriever.py data/public_career_corpus.json --allow-framework LangGraph

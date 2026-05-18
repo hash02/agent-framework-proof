@@ -1,0 +1,26 @@
+[
+  {
+    "id": "agent-framework-proof",
+    "title": "Agent Framework Proof",
+    "url": "https://github.com/hash02/agent-framework-proof",
+    "text": "Public proof repo showing a LangGraph board runner, a policy safety eval harness, regression tests, and GitHub Actions CI for recruiter-facing agent workflow artifacts."
+  },
+  {
+    "id": "aml-detection-engine",
+    "title": "AML Detection Engine",
+    "url": "https://github.com/hash02/aml-detection-engine",
+    "text": "Public AML and RegTech proof focused on blockchain transaction risk signals, triage, rule-based detection, and recruiter-safe finance plus compliance storytelling."
+  },
+  {
+    "id": "bionic-banker",
+    "title": "Bionic Banker",
+    "url": "https://github.com/hash02/bionic-banker",
+    "text": "Public writing and project surface for AI, finance, agent systems, and technical case studies. Useful for portfolio proof and recruiter context."
+  },
+  {
+    "id": "hermes-kite",
+    "title": "Hermes Kite",
+    "url": "https://github.com/hash02/hermes-kite",
+    "text": "Public testnet and hackathon-oriented proof around agent infrastructure. Use as testnet infrastructure proof, not live trading proof."
+  }
+]
