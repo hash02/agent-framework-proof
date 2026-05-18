@@ -23,6 +23,7 @@ Status: personal-scale proof, not production enterprise deployment.
 - `agent_safety_eval.py`: policy eval harness that scans artifacts for private data, unauthorized action claims, and unverified framework claims.
 - `rag_proof_retriever.py`: deterministic public-safe retrieval proof with chunking, scoring, and citations.
 - `risk_service_api.py`: local FastAPI service wrapping retrieval and safety-eval flows.
+- `Dockerfile`: container package for the local FastAPI proof service.
 - `data/public_career_corpus.json`: small public-only corpus for recruiter-safe retrieval tests.
 - `tests/test_langgraph_board_runner.py`: safety and behavior tests.
 - `tests/test_agent_safety_eval.py`: eval harness regression tests.
@@ -37,6 +38,8 @@ python langgraph_board_runner.py "path\to\career-proof-board-latest.json"
 python agent_safety_eval.py "path\to\packet-or-board-artifact.md" --allow-framework LangGraph
 python rag_proof_retriever.py "LangGraph RAG safety eval CI"
 uvicorn risk_service_api:app --reload
+docker build -t agent-framework-proof .
+docker run --rm -p 8000:8000 agent-framework-proof
 ```
 
 ## FastAPI Risk Service
@@ -49,11 +52,18 @@ The local API proof wraps the retrieval and safety-eval modules behind service e
 
 Job-market signal: backend API design, Pydantic request/response contracts, testable service boundaries, and a path toward Docker packaging.
 
+## Docker Package
+
+The Docker package runs the FastAPI proof service on port `8000`.
+
+Job-market signal: packaging a tested Python API service into a repeatable container image. The CI workflow builds the image on every push.
+
 ## Current Verification
 
 Latest local verification:
 
 - `python -m pytest tests`: 26 passed
+- GitHub Actions: tests, source safety eval, and Docker build
 - Live board run output: `runs/langgraph-board-runner-output-2026-05-18.json`
 - Live RAG proof output: `runs/rag-proof-retriever-output-2026-05-18.json`
 
