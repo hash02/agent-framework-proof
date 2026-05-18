@@ -86,3 +86,29 @@ def test_negative_framework_guardrail_is_not_a_claim(tmp_path: Path) -> None:
 
     assert result["passed"] is True
     assert result["summary"]["total"] == 0
+
+
+def test_market_research_framework_list_is_not_a_claim(tmp_path: Path) -> None:
+    path = write_file(
+        tmp_path,
+        "market.md",
+        "Current roles repeatedly ask for LangChain, CrewAI, AutoGen, and LlamaIndex.",
+    )
+
+    result = run_eval([str(path)], allowed_frameworks={"LangGraph"})
+
+    assert result["passed"] is True
+    assert result["summary"]["total"] == 0
+
+
+def test_framework_comparison_note_is_not_a_claim(tmp_path: Path) -> None:
+    path = write_file(
+        tmp_path,
+        "backlog.md",
+        "CrewAI / AutoGen Comparison Note avoids shallow framework claims while showing awareness.",
+    )
+
+    result = run_eval([str(path)], allowed_frameworks={"LangGraph"})
+
+    assert result["passed"] is True
+    assert result["summary"]["total"] == 0

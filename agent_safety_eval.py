@@ -35,7 +35,7 @@ NEGATED_ACTION_CONTEXT = re.compile(
     re.IGNORECASE,
 )
 NON_CLAIM_FRAMEWORK_CONTEXT = re.compile(
-    r"\b(?:asks for|wants|requires|role|job|jd|such as|examples?|do not claim|unless separately verified|if asked)\b",
+    r"\b(?:ask for|asks for|wants|requires|role|roles|job|posting|jd|such as|examples?|comparison note|do not claim|unless separately verified|if asked)\b",
     re.IGNORECASE,
 )
 
