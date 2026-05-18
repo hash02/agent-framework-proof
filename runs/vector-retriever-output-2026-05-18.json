@@ -1,0 +1,23 @@
+{
+  "boundary": "Optional Chroma vector retrieval proof with deterministic fallback; local public-safe corpus only, not production RAG or hosted vector search.",
+  "chroma_available": false,
+  "mode": "deterministic_fallback",
+  "query": "agent framework proof with citations",
+  "results": [
+    {
+      "chunk": "Public testnet and hackathon-oriented proof around agent infrastructure. Use as testnet infrastructure proof, not live trading proof.",
+      "citation": "https://github.com/hash02/hermes-kite",
+      "score": 4.2231
+    },
+    {
+      "chunk": "Public proof repo showing a LangGraph board runner, a policy safety eval harness, regression tests, and GitHub Actions CI for recruiter-facing agent workflow artifacts.",
+      "citation": "https://github.com/hash02/agent-framework-proof",
+      "score": 2.2231
+    },
+    {
+      "chunk": "Public writing and project surface for AI, finance, agent systems, and technical case studies. Useful for portfolio proof and recruiter context.",
+      "citation": "https://github.com/hash02/bionic-banker",
+      "score": 2.2231
+    }
+  ]
+}

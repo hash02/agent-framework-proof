@@ -1,0 +1,76 @@
+{
+  "boundary": "Local MCP-style tool server proof only; no live MCP connection, network call, credential requirement, or production deployment.",
+  "calls": [
+    {
+      "boundary": "Local MCP-style tool server proof only; no live MCP connection, network call, credential requirement, or production deployment.",
+      "error": null,
+      "params": {
+        "query": "agent framework proof"
+      },
+      "result": {
+        "artifact": "agent-framework-proof/README.md",
+        "evidence_refs": [
+          "agent-framework-proof/README.md",
+          "agent-framework-proof/tests/test_mcp_proof_server.py"
+        ],
+        "match_summary": "Agent Framework Proof contains local modules for tool calling, retrieval, RBAC, observability, trace events, queues, and SDK-shaped flows.",
+        "query": "agent framework proof"
+      },
+      "tool": "proof_lookup"
+    },
+    {
+      "boundary": "Local MCP-style tool server proof only; no live MCP connection, network call, credential requirement, or production deployment.",
+      "error": null,
+      "params": {
+        "text": "local proof artifact only"
+      },
+      "result": {
+        "boundary_note": "Local proof artifact only.",
+        "findings": [],
+        "status": "pass"
+      },
+      "tool": "safety_summary"
+    },
+    {
+      "boundary": "Local MCP-style tool server proof only; no live MCP connection, network call, credential requirement, or production deployment.",
+      "error": "Tool not registered: missing_tool",
+      "params": {
+        "query": "demo error response"
+      },
+      "result": {},
+      "tool": "missing_tool"
+    }
+  ],
+  "tools": [
+    {
+      "description": "Return public-safe project proof references for a query.",
+      "input_schema": {
+        "properties": {
+          "query": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "query"
+        ],
+        "type": "object"
+      },
+      "name": "proof_lookup"
+    },
+    {
+      "description": "Summarize whether text stays inside local-proof boundaries.",
+      "input_schema": {
+        "properties": {
+          "text": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "text"
+        ],
+        "type": "object"
+      },
+      "name": "safety_summary"
+    }
+  ]
+}

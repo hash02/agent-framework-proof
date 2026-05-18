@@ -1,0 +1,90 @@
+[
+  {
+    "item_id": "item-001",
+    "state": "queued",
+    "owner": "Codex",
+    "action_type": "research_role",
+    "retry_count": 0,
+    "max_retries": 2,
+    "created_at": "2026-05-18T00:00:00+00:00",
+    "updated_at": "2026-05-18T00:00:00+00:00",
+    "audit_rows": [],
+    "blocked_reason": ""
+  },
+  {
+    "item_id": "item-002",
+    "state": "running",
+    "owner": "CloudCode",
+    "action_type": "safety_eval",
+    "retry_count": 0,
+    "max_retries": 2,
+    "created_at": "2026-05-18T00:01:00+00:00",
+    "updated_at": "2026-05-18T00:01:30+00:00",
+    "audit_rows": [
+      {
+        "timestamp": "2026-05-18T00:01:30+00:00",
+        "from_state": "queued",
+        "to_state": "running",
+        "reason": "Reviewer picked up safety evaluation task."
+      }
+    ],
+    "blocked_reason": ""
+  },
+  {
+    "item_id": "item-003",
+    "state": "completed",
+    "owner": "Codex",
+    "action_type": "draft_packet",
+    "retry_count": 1,
+    "max_retries": 2,
+    "created_at": "2026-05-18T00:02:00+00:00",
+    "updated_at": "2026-05-18T00:03:00+00:00",
+    "audit_rows": [
+      {
+        "timestamp": "2026-05-18T00:03:00+00:00",
+        "from_state": "running",
+        "to_state": "completed",
+        "reason": "Draft packet completed and saved as local artifact."
+      }
+    ],
+    "blocked_reason": ""
+  },
+  {
+    "item_id": "item-004",
+    "state": "blocked",
+    "owner": "Codex",
+    "action_type": "file_form",
+    "retry_count": 0,
+    "max_retries": 0,
+    "created_at": "2026-05-18T00:04:00+00:00",
+    "updated_at": "2026-05-18T00:04:05+00:00",
+    "audit_rows": [
+      {
+        "timestamp": "2026-05-18T00:04:05+00:00",
+        "from_state": "queued",
+        "to_state": "blocked",
+        "reason": "External form action detected."
+      }
+    ],
+    "blocked_reason": "HASH manual review and explicit final action are required."
+  },
+  {
+    "item_id": "item-005",
+    "state": "rejected",
+    "owner": "CloudCode",
+    "action_type": "render_local_artifact",
+    "retry_count": 2,
+    "max_retries": 2,
+    "created_at": "2026-05-18T00:05:00+00:00",
+    "updated_at": "2026-05-18T00:06:00+00:00",
+    "audit_rows": [
+      {
+        "timestamp": "2026-05-18T00:06:00+00:00",
+        "from_state": "running",
+        "to_state": "rejected",
+        "reason": "Artifact failed local safety requirements after max retries."
+      }
+    ],
+    "blocked_reason": "Needs redesign before another run."
+  }
+]

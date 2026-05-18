@@ -25,6 +25,12 @@ Status: personal-scale proof, not production enterprise deployment.
 - `langchain_tool_caller.py`: LangChain tool-calling proof over local retrieval and safety-eval tools.
 - `rbac_audit_sim.py`: local RBAC and audit simulation for governed AI workflow roles.
 - `observability_status.py`: local runtime event summary with freshness and attention states.
+- `trace_events.py`: OpenTelemetry-style JSON trace event proof for agent decisions, tool calls, evals, and gate outcomes.
+- `queue_sim.py`: local queue simulation for governed workflow states, retries, audit rows, and external-action gates.
+- `openai_agents_local_proof.py`: OpenAI Agents SDK-shaped local proof with Agent, Tool, and runner abstractions over mocked tools.
+- `mcp_proof_server.py`: local MCP-style tool server proof with registry introspection and structured tool calls.
+- `mcp_tools/`: public-safe proof lookup and safety summary tool handlers.
+- `vector_retriever.py`: optional Chroma vector retrieval mode with deterministic fallback over the public-safe corpus.
 - `risk_service_api.py`: local FastAPI service wrapping retrieval and safety-eval flows.
 - `Dockerfile`: container package for the local FastAPI proof service.
 - `k8s/`: local Kubernetes deployment, service, probes, and kustomization for the FastAPI proof service.
@@ -35,6 +41,11 @@ Status: personal-scale proof, not production enterprise deployment.
 - `tests/test_langchain_tool_caller.py`: local LangChain tool registration, routing, and invocation tests.
 - `tests/test_rbac_audit_sim.py`: role permission and audit-row tests.
 - `tests/test_observability_status.py`: runtime event and freshness summary tests.
+- `tests/test_trace_events.py`: trace-event structure, parent links, blocked-gate reason, and private-data guard tests.
+- `tests/test_queue_sim.py`: queue state, retry, audit-row, external-action gate, and private-data guard tests.
+- `tests/test_openai_agents_local_proof.py`: local Agent, Tool, runner, blocked-path, and serialization tests.
+- `tests/test_mcp_proof_server.py`: MCP-style tool discovery, dispatch, error response, and serialization tests.
+- `tests/test_vector_retriever.py`: deterministic retrieval, optional Chroma fallback, citation, and serialization tests.
 - `tests/test_risk_service_api.py`: API contract tests.
 - `tests/test_kubernetes_manifests.py`: manifest checks for local Kubernetes deployment proof.
 
@@ -48,6 +59,11 @@ python rag_proof_retriever.py "LangGraph RAG safety eval CI"
 python langchain_tool_caller.py "Find proof for LangGraph RAG Docker"
 python rbac_audit_sim.py
 python observability_status.py
+python trace_events.py
+python queue_sim.py
+python openai_agents_local_proof.py
+python mcp_proof_server.py
+python vector_retriever.py
 uvicorn risk_service_api:app --reload
 docker build -t agent-framework-proof .
 docker run --rm -p 8000:8000 agent-framework-proof
@@ -110,6 +126,36 @@ The summary computes:
 - overall state
 
 Job-market signal: runtime visibility, freshness checks, and attention-state reporting for governed agent workflows. This is local proof only, not production monitoring, tracing, alerting, or incident response.
+
+## Trace Events
+
+The `trace_events.py` module produces OpenTelemetry-style JSON events for governed agent workflows. Each event includes a trace id, span id, parent span id, event type, timestamp, agent, public-safe input/output summaries, evidence references, gate status, duration, and blocked-action reason where needed. The sample output is saved at `runs/trace-events-output-2026-05-18.json`.
+
+Job-market signal: trace-shaped observability for agent decisions, tool calls, eval results, and gate outcomes. This is local proof only, not production OpenTelemetry, monitoring, alerting, or incident response.
+
+## Queue Simulation
+
+The `queue_sim.py` module models local work items moving through `queued`, `running`, `blocked`, `completed`, and `rejected` states. Each work item includes an owner, action type, retry count, max retries, timestamps, audit rows, and blocked reason where required. External-action work items remain blocked behind HASH manual review. The sample output is saved at `runs/queue-sim-output-2026-05-18.json`.
+
+Job-market signal: async-style workflow proof with state transitions, retries, auditability, and governed external-action gates. This is local proof only, not a production queue, broker, workflow engine, or authorization system.
+
+## OpenAI Agents SDK Proof
+
+The `openai_agents_local_proof.py` module shows an OpenAI Agents SDK-shaped workflow using local Agent, Tool, and runner abstractions. It calls mocked proof-lookup and safety-check tools, returns a structured result with `tools_called`, `safety_status`, `evidence_refs`, and a claim boundary, and saves sample output at `runs/openai-agents-local-proof-output-2026-05-18.json`.
+
+Job-market signal: hands-on agent SDK workflow shape, tool metadata, local tool routing, blocked-path behavior, and public-safe JSON output. This is local proof only, not a production OpenAI Agents SDK deployment or live model integration.
+
+## MCP Tool Server Proof
+
+The `mcp_proof_server.py` module shows a local MCP-style tool boundary with registry introspection and structured calls. It exposes two tools, `proof_lookup` and `safety_summary`, returns `tool`, `params`, `result`, `boundary`, and `error` fields for every call, and saves sample output at `runs/mcp-proof-server-output-2026-05-18.json`. Tests live in `tests/test_mcp_proof_server.py`.
+
+Job-market signal: MCP-style tool discovery, input schema metadata, local dispatch, safe error handling, and public-safe tool boundaries. This is local proof only, not a live MCP server, network service, credentialed integration, or production deployment.
+
+## Vector Retriever
+
+The `vector_retriever.py` module adds retrieval with citations using two modes: deterministic local retrieval over the public-safe corpus, and an optional Chroma mode when `chromadb` is available. If Chroma is missing or fails at runtime, the result falls back to `deterministic_fallback` so CI remains reliable. The sample output is saved at `runs/vector-retriever-output-2026-05-18.json`.
+
+Job-market signal: retrieval with citations, optional vector database mode, graceful dependency fallback, and public-safe result boundaries. This is local proof only, not production RAG, hosted vector search, or a live data integration.
 
 ## Docker Package
 

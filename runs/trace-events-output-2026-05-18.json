@@ -1,0 +1,78 @@
+[
+  {
+    "trace_id": "trace-career-proof-001",
+    "span_id": "span-f5f7139fab15",
+    "parent_span_id": null,
+    "event_type": "decision",
+    "timestamp": "2026-05-18T00:00:00+00:00",
+    "agent": "Codex",
+    "input_summary": "Review board state and choose next safe local build.",
+    "output_summary": "Selected compact answer set for review-ready compliance packet.",
+    "evidence_refs": [
+      "50-career/career-agent/career-proof-board-latest.json"
+    ],
+    "gate_status": "not_applicable",
+    "duration_ms": 18,
+    "reason": ""
+  },
+  {
+    "trace_id": "trace-career-proof-001",
+    "span_id": "span-dc08380f4985",
+    "parent_span_id": "span-f5f7139fab15",
+    "event_type": "tool_call",
+    "timestamp": "2026-05-18T00:00:02+00:00",
+    "agent": "Codex",
+    "input_summary": "Read packet and checklist artifacts.",
+    "output_summary": "Found role-specific questions and credential boundaries.",
+    "evidence_refs": [
+      "50-career/career-agent/hiive-final-submit-checklist-2026-05-18.md"
+    ],
+    "gate_status": "not_applicable",
+    "duration_ms": 42,
+    "reason": ""
+  },
+  {
+    "trace_id": "trace-career-proof-001",
+    "span_id": "span-10a7e9e01131",
+    "parent_span_id": "span-dc08380f4985",
+    "event_type": "eval_result",
+    "timestamp": "2026-05-18T00:00:05+00:00",
+    "agent": "Codex",
+    "input_summary": "Scan compact answer artifact for unsafe claims.",
+    "output_summary": "No high or medium safety findings.",
+    "evidence_refs": [
+      "agent-framework-proof/agent_safety_eval.py"
+    ],
+    "gate_status": "not_applicable",
+    "duration_ms": 51,
+    "reason": ""
+  },
+  {
+    "trace_id": "trace-career-proof-001",
+    "span_id": "span-84ea414a319f",
+    "parent_span_id": "span-10a7e9e01131",
+    "event_type": "gate_check",
+    "timestamp": "2026-05-18T00:00:07+00:00",
+    "agent": "Codex",
+    "input_summary": "Check whether external action is requested.",
+    "output_summary": "Only local artifact creation is allowed.",
+    "evidence_refs": [],
+    "gate_status": "open",
+    "duration_ms": 7,
+    "reason": ""
+  },
+  {
+    "trace_id": "trace-career-proof-001",
+    "span_id": "span-49d110f367dc",
+    "parent_span_id": "span-84ea414a319f",
+    "event_type": "gate_blocked",
+    "timestamp": "2026-05-18T00:00:08+00:00",
+    "agent": "Codex",
+    "input_summary": "Evaluate form filing request boundary.",
+    "output_summary": "External form action remains blocked for human review.",
+    "evidence_refs": [],
+    "gate_status": "blocked",
+    "duration_ms": 5,
+    "reason": "Job forms require human review and explicit final action."
+  }
+]

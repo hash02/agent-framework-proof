@@ -1,0 +1,15 @@
+{
+  "agent_name": "career-proof-local-agent",
+  "boundary": "OpenAI Agents SDK-shaped local proof only; safe mocked tools, no live API call, no credential requirement, and not production agent deployment.",
+  "evidence_refs": [
+    "agent-framework-proof/README.md",
+    "agent-framework-proof/runs/queue-sim-output-2026-05-18.json"
+  ],
+  "input": "Prepare local proof summary for recruiter packet.",
+  "output_summary": "Local agent framework proof includes tool calling, queue states, RBAC, retrieval, trace events, and tests.",
+  "safety_status": "pass",
+  "tools_called": [
+    "run_safety_check",
+    "lookup_proof_artifact"
+  ]
+}
