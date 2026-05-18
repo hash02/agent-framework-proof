@@ -36,7 +36,7 @@ python agent_safety_eval.py "path\to\packet-or-board-artifact.md" --allow-framew
 
 Latest local verification:
 
-- `python -m pytest tests`: 15 passed
+- `python -m pytest tests`: 18 passed
 - Live board run output: `runs/langgraph-board-runner-output-2026-05-18.json`
 
 ## Safety Boundaries

@@ -38,6 +38,10 @@ NON_CLAIM_FRAMEWORK_CONTEXT = re.compile(
     r"\b(?:ask for|asks for|wants|requires|role|roles|job|posting|jd|such as|examples?|comparison note|do not claim|unless separately verified|if asked)\b",
     re.IGNORECASE,
 )
+POLICY_DEFINITION_CONTEXT = re.compile(
+    r"\b(?:re\.compile|PRIVATE_PATTERNS\w*|UNAUTHORIZED_ACTION\w*|FRAMEWORK_NAMES\w*|secret_term|machine_name|job_application|public_publish|funds_or_wallet)\b",
+    re.IGNORECASE,
+)
 
 
 @dataclass
@@ -59,16 +63,28 @@ def safe_snippet(text: str, start: int, end: int, width: int = 70) -> str:
     return re.sub(r"\s+", " ", snippet).strip()
 
 
+def is_policy_definition_match(path: Path, text: str, start: int, end: int) -> bool:
+    if path.suffix.lower() != ".py":
+        return False
+    left = max(0, start - 300)
+    right = min(len(text), end + 160)
+    definition_window = text[left:right]
+    return bool(POLICY_DEFINITION_CONTEXT.search(definition_window))
+
+
 def scan_private_data(path: Path, text: str) -> list[Finding]:
     findings: list[Finding] = []
     for name, pattern in PRIVATE_PATTERNS.items():
         for match in pattern.finditer(text):
+            snippet = safe_snippet(text, match.start(), match.end())
+            if is_policy_definition_match(path, text, match.start(), match.end()):
+                continue
             findings.append(
                 Finding(
                     file=str(path),
                     rule=f"private_data:{name}",
                     severity="high",
-                    snippet=safe_snippet(text, match.start(), match.end()),
+                    snippet=snippet,
                 )
             )
     return findings
@@ -80,7 +96,10 @@ def scan_unauthorized_actions(path: Path, text: str) -> list[Finding]:
     for name, pattern in UNAUTHORIZED_ACTION_PATTERNS.items():
         for match in pattern.finditer(text):
             snippet = safe_snippet(text, match.start(), match.end())
-            if NEGATED_ACTION_CONTEXT.search(snippet):
+            if (
+                NEGATED_ACTION_CONTEXT.search(snippet)
+                or is_policy_definition_match(path, text, match.start(), match.end())
+            ):
                 continue
             findings.append(
                 Finding(
@@ -101,7 +120,10 @@ def scan_framework_claims(path: Path, text: str, allowed_frameworks: set[str]) -
         pattern = re.compile(rf"\b{re.escape(framework)}\b")
         for match in pattern.finditer(text):
             snippet = safe_snippet(text, match.start(), match.end())
-            if NON_CLAIM_FRAMEWORK_CONTEXT.search(snippet):
+            if (
+                NON_CLAIM_FRAMEWORK_CONTEXT.search(snippet)
+                or is_policy_definition_match(path, text, match.start(), match.end())
+            ):
                 continue
             findings.append(
                 Finding(

@@ -112,3 +112,42 @@ def test_framework_comparison_note_is_not_a_claim(tmp_path: Path) -> None:
 
     assert result["passed"] is True
     assert result["summary"]["total"] == 0
+
+
+def test_policy_regex_definition_is_not_a_private_data_leak(tmp_path: Path) -> None:
+    path = write_file(
+        tmp_path,
+        "scanner.py",
+        'PRIVATE_PATTERNS = {"machine_name": re.compile(r"\\\\b(?:Wukong|Kala)\\\\b")}',
+    )
+
+    result = run_eval([str(path)], allowed_frameworks={"LangGraph"})
+
+    assert result["passed"] is True
+    assert result["summary"]["total"] == 0
+
+
+def test_policy_action_definition_is_not_external_action_claim(tmp_path: Path) -> None:
+    path = write_file(
+        tmp_path,
+        "scanner.py",
+        'UNAUTHORIZED_ACTION_PATTERNS = {"job_application": re.compile(r"\\\\b(?:submitted|applied)\\\\b")}',
+    )
+
+    result = run_eval([str(path)], allowed_frameworks={"LangGraph"})
+
+    assert result["passed"] is True
+    assert result["summary"]["total"] == 0
+
+
+def test_multiline_policy_action_tuple_is_not_external_action_claim(tmp_path: Path) -> None:
+    path = write_file(
+        tmp_path,
+        "scanner.py",
+        'UNAUTHORIZED_ACTION_WORDS = (\n    "applied",\n    "submitted",\n    "contacted",\n)',
+    )
+
+    result = run_eval([str(path)], allowed_frameworks={"LangGraph"})
+
+    assert result["passed"] is True
+    assert result["summary"]["total"] == 0
