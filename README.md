@@ -24,6 +24,7 @@ Status: personal-scale proof, not production enterprise deployment.
 - `rag_proof_retriever.py`: deterministic public-safe retrieval proof with chunking, scoring, and citations.
 - `langchain_tool_caller.py`: LangChain tool-calling proof over local retrieval and safety-eval tools.
 - `rbac_audit_sim.py`: local RBAC and audit simulation for governed AI workflow roles.
+- `observability_status.py`: local runtime event summary with freshness and attention states.
 - `risk_service_api.py`: local FastAPI service wrapping retrieval and safety-eval flows.
 - `Dockerfile`: container package for the local FastAPI proof service.
 - `k8s/`: local Kubernetes deployment, service, probes, and kustomization for the FastAPI proof service.
@@ -33,6 +34,7 @@ Status: personal-scale proof, not production enterprise deployment.
 - `tests/test_rag_proof_retriever.py`: retrieval and citation tests.
 - `tests/test_langchain_tool_caller.py`: local LangChain tool registration, routing, and invocation tests.
 - `tests/test_rbac_audit_sim.py`: role permission and audit-row tests.
+- `tests/test_observability_status.py`: runtime event and freshness summary tests.
 - `tests/test_risk_service_api.py`: API contract tests.
 - `tests/test_kubernetes_manifests.py`: manifest checks for local Kubernetes deployment proof.
 
@@ -45,6 +47,7 @@ python agent_safety_eval.py "path\to\packet-or-board-artifact.md" --allow-framew
 python rag_proof_retriever.py "LangGraph RAG safety eval CI"
 python langchain_tool_caller.py "Find proof for LangGraph RAG Docker"
 python rbac_audit_sim.py
+python observability_status.py
 uvicorn risk_service_api:app --reload
 docker build -t agent-framework-proof .
 docker run --rm -p 8000:8000 agent-framework-proof
@@ -85,6 +88,28 @@ High-risk actions such as `submit_application` and `edit_public_profile` are den
 Each decision creates an audit row with timestamp, role, action, resource, allow/deny result, reason, and risk label.
 
 Job-market signal: role-scoped access, auditability, authorization boundaries, and regulated-workflow thinking. This is a local simulation only, not enterprise IAM or production authorization.
+
+## Observability Status Proof
+
+The `observability_status.py` module turns local runtime events into a status summary.
+
+Each event includes:
+
+- run id
+- component
+- status
+- timestamp
+- duration
+- detail
+
+The summary computes:
+
+- status counts
+- latest event
+- freshness state
+- overall state
+
+Job-market signal: runtime visibility, freshness checks, and attention-state reporting for governed agent workflows. This is local proof only, not production monitoring, tracing, alerting, or incident response.
 
 ## Docker Package
 
