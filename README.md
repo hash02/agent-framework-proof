@@ -2,6 +2,10 @@
 
 Small, recruiter-safe framework proof modules for HASH's AI finance and agent-system portfolio.
 
+## Public Demo Pack
+
+Start with [`DEMO_PACK.md`](DEMO_PACK.md) for the compact public-facing review path: what the project demonstrates, who should inspect it, commands to run, current verification, evidence map, and claim boundaries.
+
 ## LangGraph Board Runner
 
 A LangGraph state machine that reads the Career Proof Chess board, checks gate status, and proposes the next safe local move within policy constraints.
