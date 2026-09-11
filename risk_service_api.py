@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 from typing import Any
+from pathlib import Path
 
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
@@ -12,6 +13,7 @@ from rag_proof_retriever import run_query
 
 
 SERVICE_VERSION = "0.1.0"
+EVAL_ROOT = Path(__file__).resolve().parent
 
 
 class HealthResponse(BaseModel):
@@ -49,6 +51,7 @@ class EvalResponse(BaseModel):
     scanned_files: int
     summary: dict[str, int]
     findings: list[dict[str, Any]]
+    errors: list[str]
 
 
 app = FastAPI(
@@ -70,10 +73,11 @@ def retrieve(request: RetrieveRequest) -> dict:
 
 @app.post("/eval", response_model=EvalResponse)
 def eval_artifacts(request: EvalRequest) -> EvalResponse:
-    result = run_eval(request.files, request.allow_frameworks)
+    result = run_eval(request.files, request.allow_frameworks, base_dir=EVAL_ROOT)
     return EvalResponse(
         passed=result["passed"],
         scanned_files=len(result["scanned_files"]),
         summary=result["summary"],
         findings=result["findings"],
+        errors=result["errors"],
     )

@@ -12,6 +12,7 @@ import json
 import re
 from dataclasses import asdict, dataclass
 from typing import Any
+from pathlib import Path
 
 from langchain_core.tools import BaseTool, tool
 
@@ -42,7 +43,7 @@ def retrieve_project_proof(query: str, top_k: int = 3) -> dict:
 def evaluate_artifact_safety(paths: list[str], allow_frameworks: list[str] | None = None) -> dict:
     """Evaluate local artifacts for private data, unsafe actions, and framework overclaims."""
     frameworks = allow_frameworks or ["LangGraph", "LangChain"]
-    return run_eval(paths, frameworks)
+    return run_eval(paths, frameworks, base_dir=Path(__file__).resolve().parent)
 
 
 def build_tools() -> list[BaseTool]:

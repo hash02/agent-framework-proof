@@ -145,30 +145,67 @@ def scan_file(path: Path, allowed_frameworks: set[str]) -> list[Finding]:
     return findings
 
 
-def iter_files(paths: Iterable[str]) -> Iterable[Path]:
+def iter_files(paths: Iterable[str], base_dir: Path | None = None) -> Iterable[Path]:
+    root = base_dir.resolve() if base_dir is not None else None
+
+    def checked(path: Path) -> Path:
+        resolved = path.resolve()
+        if root is not None and not resolved.is_relative_to(root):
+            raise ValueError("Input is outside the permitted artifact root")
+        return resolved
+
     for raw in paths:
+        if not raw.strip():
+            raise ValueError("Input path is empty")
         path = Path(raw)
+        if root is not None and not path.is_absolute():
+            path = root / path
+        path = checked(path)
         if path.is_dir():
-            yield from sorted(
+            children = sorted(
                 child
                 for child in path.rglob("*")
                 if child.is_file() and child.suffix.lower() in {".md", ".json", ".txt"}
             )
+            if not children:
+                raise ValueError("Input directory contains no supported artifacts")
+            for child in children:
+                yield checked(child)
         elif path.is_file():
             yield path
+        else:
+            raise ValueError("Input file or directory does not exist")
 
 
-def run_eval(paths: Iterable[str], allowed_frameworks: Iterable[str] = ("LangGraph",)) -> dict:
+def run_eval(
+    paths: Iterable[str],
+    allowed_frameworks: Iterable[str] = ("LangGraph",),
+    *,
+    base_dir: Path | None = None,
+) -> dict:
     allowed = set(allowed_frameworks)
     findings: list[Finding] = []
     scanned: list[str] = []
-    for path in iter_files(paths):
-        scanned.append(str(path))
-        findings.extend(scan_file(path, allowed))
+    errors: list[str] = []
+    try:
+        # Validate every requested path before reading any artifact content.
+        files = list(iter_files(paths, base_dir))
+        if not files:
+            errors.append("No artifacts were selected")
+        for path in dict.fromkeys(files):
+            file_findings = scan_file(path, allowed)
+            findings.extend(file_findings)
+            scanned.append(str(path))
+    except ValueError as exc:
+        errors.append(str(exc))
+    except (OSError, RuntimeError):
+        # Do not echo OS errors containing server paths or file contents.
+        errors.append("An artifact could not be resolved or read")
     high_count = sum(1 for finding in findings if finding.severity == "high")
     medium_count = sum(1 for finding in findings if finding.severity == "medium")
     return {
-        "passed": high_count == 0,
+        "passed": bool(scanned) and not errors and high_count == 0,
+        "errors": errors,
         "scanned_files": scanned,
         "summary": {
             "high": high_count,

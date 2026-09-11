@@ -103,6 +103,8 @@ Observed result:
 - structured role/action/resource audit rows
 - fallback behavior for optional vector dependency
 - boundary statements in README and docs
+- API and LangChain evaluation paths are restricted to the repository root after resolution
+- missing, empty or unreadable scan inputs produce explicit errors and cannot pass
 
 ## Failure modes
 
@@ -111,6 +113,7 @@ Observed result:
 - local mocked tools may not capture all vendor runtime behavior
 - public corpus may be too small for broad retrieval claims
 - sample run artifacts can become stale
+- path checks do not isolate concurrent filesystem changes; this remains a local proof service
 
 ## Review cadence
 

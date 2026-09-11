@@ -82,6 +82,17 @@ The local API proof wraps the retrieval and safety-eval modules behind service e
 - `POST /retrieve`: public-safe retrieval over the project corpus with citations and claim-boundary text.
 - `POST /eval`: artifact safety eval for local files and verified framework names.
 
+The API and LangChain evaluation tool resolve relative paths under this repository
+and reject paths or symlinks that resolve outside it. Clients cannot choose a
+different root. Missing inputs, empty directories and unreadable artifacts return
+`passed: false` with an `errors` list. A clean result requires at least one file
+to have been scanned successfully. The command-line evaluator retains explicit
+operator-selected local paths and exits nonzero on incomplete scans.
+
+This path boundary is for the local proof service. It is not a filesystem sandbox
+against concurrent file replacement, and files inside the root must remain safe
+for the service's users to read.
+
 Job-market signal: backend API design, Pydantic request/response contracts, testable service boundaries, and a path toward Docker packaging.
 
 ## LangChain Tool Calling
