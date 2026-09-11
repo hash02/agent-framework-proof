@@ -33,7 +33,8 @@ def test_retrieve_empty_query_returns_validation_error() -> None:
     assert response.status_code == 422
 
 
-def test_eval_clean_file_passes(tmp_path: Path) -> None:
+def test_eval_clean_file_passes(tmp_path: Path, monkeypatch) -> None:
+    monkeypatch.setattr("risk_service_api.EVAL_ROOT", tmp_path)
     clean_file = tmp_path / "clean.md"
     clean_file.write_text("Built a public-safe LangGraph proof module.", encoding="utf-8")
 
